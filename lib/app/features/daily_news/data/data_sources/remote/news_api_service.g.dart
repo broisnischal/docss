@@ -33,7 +33,7 @@ class _NewsApiService implements NewsApiService {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<List<dynamic>>(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<List<ArticleModel>>>(Options(
       method: 'GET',
       headers: _headers,
@@ -50,11 +50,15 @@ class _NewsApiService implements NewsApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    var value = _result.data!
-        .map((dynamic i) => ArticleModel.fromJson(i as Map<String, String>))
+
+    // ignore: avoid_dynamic_calls
+    final value = _result.data!["articles"]
+        ?.map<ArticleModel>(
+          (dynamic i) => ArticleModel.fromJson(i as Map<String, String>),
+        )
         .toList();
     final httpResponse = HttpResponse(value, _result);
-    return httpResponse;
+    return httpResponse as HttpResponse<List<ArticleModel>>;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
