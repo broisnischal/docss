@@ -6,7 +6,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String apiKey = dotenv.get("API_KEY");
+    // String apiKey = dotenv.get("API_KEY");
 
     return MaterialApp(
       theme: ThemeData(
